@@ -31,6 +31,7 @@ def build_stores_dict(list):
                 store_dict[entry.zipcode]=[number]
             else:
                 store_dict[entry.zipcode].append(number)
+
     return store_dict
 
 def get_product(product):
@@ -53,4 +54,6 @@ def make_product(list):
     for entry in list:
         available_products.append((entry['name'], entry['sku']))
     return available_products
+
+    return store_dict
 
