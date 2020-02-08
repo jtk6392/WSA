@@ -33,4 +33,24 @@ def build_stores_dict(list):
                 store_dict[entry.zipcode].append(number)
     return store_dict
 
+def get_product(product):
+    """
+    Finds products matching the users search that wegmans sells
+    :param product:(String) the name of the product we are looking for
+    :return:(list) a list of tuples containing the products name and sku respectively
+    """
+    web_respone = request.urlopen("https://api.wegmans.io/products/search?query=%s&api-version=2018-10-18&subscription-key=d417eac4aaa24bc082c1581ef13783ea" % product)
+    product_json = http.client.HTTPResponse.read(web_respone)
+    return make_product(json.loads(product_json)["results"])
+
+def make_product(list):
+    """
+    takes a list of matching products and makes a tuple of the products name and sku for each product
+    :param list:(list) list of product data
+    :return:(list) list of tuples of the products
+    """
+    available_products=[]
+    for entry in list:
+        available_products.append((entry['name'], entry['sku']))
+    return available_products
 
