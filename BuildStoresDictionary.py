@@ -1,15 +1,18 @@
 
 from urllib import request
+from urllib import parse
 import http.client
 import json
 from uszipcode import SearchEngine
+
+KEY="d417eac4aaa24bc082c1581ef13783ea&api"
 
 def get_stores_list():
     """
     Queries Wegman's api for the information on their stores and reads the response
     :return: list of wegmans stores and their data
     """
-    web_respone=request.urlopen("https://api.wegmans.io/stores?Subscription-Key=d417eac4aaa24bc082c1581ef13783ea&api-version=2018-10-18")
+    web_respone=request.urlopen("https://api.wegmans.io/stores?Subscription-Key=%s-version=2018-10-18" % KEY)
     store_json=http.client.HTTPResponse.read(web_respone)
     return json.loads(store_json)["stores"]
 
@@ -40,7 +43,8 @@ def get_product(product):
     :param product:(String) the name of the product we are looking for
     :return:(list) a list of tuples containing the products name and sku respectively
     """
-    web_respone = request.urlopen("https://api.wegmans.io/products/search?query=%s&api-version=2018-10-18&subscription-key=d417eac4aaa24bc082c1581ef13783ea" % product)
+    product=parse.quote(product)
+    web_respone = request.urlopen("https://api.wegmans.io/products/search?query=%s&api-version=2018-10-18&subscription-key=%s" % (product, KEY))
     product_json = http.client.HTTPResponse.read(web_respone)
     return make_product(json.loads(product_json)["results"])
 
@@ -55,5 +59,6 @@ def make_product(list):
         available_products.append((entry['name'], entry['sku']))
     return available_products
 
-    return store_dict
 
+print(get_product("ground beef"))
+print(build_stores_dict(get_stores_list()))
