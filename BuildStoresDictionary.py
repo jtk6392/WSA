@@ -32,5 +32,3 @@ def build_stores_dict(list):
             else:
                 store_dict[entry.zipcode].append(number)
     return store_dict
-
-
