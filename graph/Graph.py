@@ -1,4 +1,5 @@
 import sys
+import itertools
 
 from graph.Node import Node
 from graph.PathTuple import PathTuple
@@ -8,11 +9,12 @@ class Graph:
     """
     implantation of a graph for searching
     """
+
     def __init__(self):
         """
         constructor for the graph
         """
-        self.vertices=dict()
+        self.vertices = dict()
 
     def __contains__(self, aisle):
         """
@@ -28,8 +30,8 @@ class Graph:
         :param aisle:(String) name of the aisle
         :return: Nothing
         """
-        node=Node(aisle)
-        self.vertices[aisle]=node
+        node = Node(aisle)
+        self.vertices[aisle] = node
 
     def connect_undirected(self, aisle, *aisles):
         """
@@ -38,11 +40,38 @@ class Graph:
         :param aisles:(list) the list of an aisles neighboring aisles
         :return: nothing
         """
-        node=self.vertices.get(aisle)
+        node = self.vertices.get(aisle)
         for neighbor in aisles:
-            next_aisle=self.vertices.get(neighbor)
+            next_aisle = self.vertices.get(neighbor)
             node.add_neighbor(next_aisle)
             next_aisle.add_neighbor(node)
+
+    def breadth_first_all(self, start_aisle, *end_aisle):
+        counter = 1
+        i = 0
+        relations = dict()
+        end_points = set(end_aisle)
+        node_list = []
+        visited = set()
+        curr_aisle = self.vertices.get(start_aisle).aisle
+        node_list += curr_aisle
+        visited.add(curr_aisle)
+        while len(node_list) != 0:
+            for elem in self.vertices.get(curr_aisle).get_neighbors():
+                print(self.vertices.get(curr_aisle).aisle, elem.aisle)
+                if not visited.__contains__(elem.aisle):
+                    node_list += elem.aisle
+                    visited.add(elem.aisle)
+                if end_points.__contains__(elem.aisle):
+                    relations[elem.aisle] = counter
+                if len(node_list) > 1:
+                    curr_aisle = node_list[1]
+                node_list.pop(0)
+            counter += 1
+        return relations
+
+
+
 
     def dijkstras_shortest_path(self, start_aisle, end_aisle):
         """
@@ -52,43 +81,51 @@ class Graph:
         :return: the shortest path
         """
 
-        #initalizing key variable
-        start=self.vertices.get(start_aisle)
-        end=self.vertices.get(end_aisle)
-        predecessors=dict()
-        queue=[]
+        # initalizing key variable
+        start = self.vertices.get(start_aisle)
+        end = self.vertices.get(end_aisle)
+        predecessors = dict()
+        queue = []
 
-        #builds PathTuples for every aisle and puts them in a queue
+        # builds PathTuples for every aisle and puts them in a queue
         for aisle in self.vertices:
-            temp=PathTuple(aisle)
-            predecessors[aisle]=temp
+            temp = PathTuple(aisle)
+            predecessors[aisle] = temp
             queue.append(temp)
 
-        start_tuple=predecessors[start]
+        start_tuple = predecessors[start]
         start_tuple.update(None, 0)
 
         # goes over every aisle update information for all its neighbors
-        while(len(queue)>0):
-            next=queue.remove(0)
-            if next.get_distance_from_start()==sys.maxsize:
+        while (len(queue) > 0):
+            next = queue.remove(0)
+            if next.get_distance_from_start() == sys.maxsize:
                 break
-            next_aisle=next.get_node()
+            next_aisle = next.get_node()
             for neighbor in next_aisle.get_neighbors():
-                distance=1+next.get_distance_from_start()
-                neighbor_path=predecessors[neighbor]
+                distance = 1 + next.get_distance_from_start()
+                neighbor_path = predecessors[neighbor]
                 neighbor_path.update(next_aisle, distance)
 
+        next = predecessors[end]
+        path = []
 
-        next=predecessors[end]
-        path=[]
-
-        #builds the path backwards then flips it
+        # builds the path backwards then flips it
         if next.get_predecessor() is not None:
-            while(next is not None):
+            while (next is not None):
                 path.append(next.get_node().get_value())
-                next=predecessors[next.get_predecessor()]
-        path=path.reverse()
+                next = predecessors[next.get_predecessor()]
+        path = path.reverse()
         return path
 
+    def find_problem_nodes(self):
+        return 0
 
 
+G = Graph()
+G.add_value("A")
+G.add_value("B")
+G.add_value("C")
+G.connect_undirected("A", "B")
+G.connect_undirected("B", "C")
+print(G.breadth_first_all("A", "B", "C"))
