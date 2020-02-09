@@ -12,7 +12,6 @@ class BackendConfig(AppConfig):
 @csrf_exempt
 def get_store(request):
     body = request.body
-
     response = json.dumps(locate_nearest_stores(build_stores_dict(get_stores_list()), json.loads(body)))
     return HttpResponse(response)
 
@@ -25,20 +24,16 @@ def get_item_from_name(request):
     dct['name'] = product[0][0]
     dct['sku'] = product[0][1]
     response = json.dumps(dct)
-    
     return HttpResponse(response)
 
 
 @csrf_exempt
-
 def get_price_location_image(request):
-
     data = dict()
     body = request.body
     info = json.loads(body)
     num = info['store_number']
     sku = info['sku']
-
     data['name'] = info['name']
     data['price'] = get_price(num, sku)
     data['location'] = shelf_location(num, sku)
@@ -55,6 +50,5 @@ def get_products_list(request):
 
     response = json.dumps(prods)
     return HttpResponse(response)
-
 
 

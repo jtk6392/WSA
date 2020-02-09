@@ -21,18 +21,12 @@ function locate() {
             console.log(json);
             console.log(json[0]);
             store_number = json[0];
-
         });
 
     }
 }
 
-
-
-
-
 async function getProductsInfo(product){
-
     const options = {
         method:'POST',
         headers:{
@@ -41,31 +35,6 @@ async function getProductsInfo(product){
         body:JSON.stringify(product)
     };
     console.log('sending: ', options);
-
-    const response = await fetch('product/', options);
-    const json = await response.json();
-    console.log(json);
-    await getPriceLocation(json.sku);
-
-}
-
-async function getPriceLocation(sku){
-    const data = {store_number, sku};
-    const options = {
-        method:'POST',
-        headers:{
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(data)
-    };
-    console.log('sending: ', options);
-    const response = await fetch('price/', options);
-    const json = await response.json();
-    console.log(json);
-}
-
-locate();
-
     const response = await fetch('products/', options);
     const json = await response.json();
     let products_info = [];
@@ -125,4 +94,6 @@ async function testCart(){
         await getProductsInfo(product);
     }
 }
+
+
 
