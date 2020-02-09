@@ -167,8 +167,8 @@ class Graph:
             path.append(shortest_path)
             start=next
             items.remove(next)
-
             shortest_path=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        path.append(self.dijkstras_shortest_path(next, "Checkout"))
         return scrub_results(path)
 
 def scrub_results(list):
