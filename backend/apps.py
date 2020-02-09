@@ -41,7 +41,9 @@ def get_price_location_image(request):
     data['name'] = info['name']
     data['price'] = get_price(num, sku)
     data['location'] = shelf_location(num, sku)
-    data['image'] = get_image(sku)
+    images = get_image(sku)
+    if images is not None and len(images) > 0:
+        data['images'] = images['images']
     response = json.dumps(data)
     return HttpResponse(response)
 

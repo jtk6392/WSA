@@ -74,7 +74,9 @@ async function getProductsInfo(product){
         }
         products_info.push(output)
     }
-
+    for(let i = 0; i < products_info.length; i++){
+        console.log(products_info[i]);
+    }
     return products_info
 }
 
