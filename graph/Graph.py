@@ -31,6 +31,10 @@ class Graph:
         node=Node(aisle)
         self.vertices[aisle]=node
 
+    def add_values(self, *aisles):
+        for aisle in aisles:
+            self.add_value(aisle)
+
     def connect_undirected(self, aisle, *aisles):
         """
         Makes connections between aisles in the store
@@ -59,7 +63,7 @@ class Graph:
         queue=[]
 
         #builds PathTuples for every aisle and puts them in a queue
-        for aisle in self.vertices:
+        for aisle in self.vertices.values():
             temp=PathTuple(aisle)
             predecessors[aisle]=temp
             queue.append(temp)
@@ -69,12 +73,12 @@ class Graph:
 
         # goes over every aisle update information for all its neighbors
         while(len(queue)>0):
-            next=queue.remove(0)
-            if next.get_distance_from_start()==sys.maxsize:
-                break
+            next=queue.pop(0)
+            if next.get_dist_from_start()==sys.maxsize:
+                continue
             next_aisle=next.get_node()
             for neighbor in next_aisle.get_neighbors():
-                distance=1+next.get_distance_from_start()
+                distance=1+next.get_dist_from_start()
                 neighbor_path=predecessors[neighbor]
                 neighbor_path.update(next_aisle, distance)
 
@@ -84,10 +88,13 @@ class Graph:
 
         #builds the path backwards then flips it
         if next.get_predecessor() is not None:
-            while(next is not None):
+            while(True):
                 path.append(next.get_node().get_value())
+                if next.get_predecessor() is None:
+                    break
                 next=predecessors[next.get_predecessor()]
-        path=path.reverse()
+
+        path.reverse()
         return path
 
 
