@@ -70,6 +70,7 @@ class Graph:
 
         start_tuple=predecessors[start]
         start_tuple.update(None, 0)
+        queue.sort(key=PathTuple.get_dist_from_start)
 
         # goes over every aisle update information for all its neighbors
         while(len(queue)>0):
@@ -81,6 +82,7 @@ class Graph:
                 distance=1+next.get_dist_from_start()
                 neighbor_path=predecessors[neighbor]
                 neighbor_path.update(next_aisle, distance)
+            queue.sort(key=PathTuple.get_dist_from_start)
 
 
         next=predecessors[end]
