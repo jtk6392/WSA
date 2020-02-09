@@ -8,6 +8,10 @@ def index(request):
     template = loader.get_template("index.html")
     return HttpResponse(template.render())
 
+def application(request):
+    template = loader.get_template("application.html")
+    return HttpResponse(template.render())
+
 def gui(request):
     return HttpResponse("This is the GUI for Test")
 
