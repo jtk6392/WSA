@@ -107,9 +107,9 @@ class Graph:
         :return: the path to all the items
         """
         path=[]
-        shortest_path=sys.maxsize
+        shortest_path=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         next=None
-        while(len(items>0)):
+        while(items !=[]):
             for ailse in items:
                 end=ailse
                 temp_path=self.dijkstras_shortest_path(start, end)
@@ -119,5 +119,7 @@ class Graph:
             path.extend(shortest_path)
             start=next
             items.remove(next)
-            shortest_path=sys.maxsize
+            shortest_path=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         return path
+
+def scrub_results(list):
