@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'BrickHack6.urls'
+ROOT_URLCONF = 'WSA.urls'
 
 TEMPLATES = [
     {
