@@ -97,5 +97,25 @@ class Graph:
         path.reverse()
         return path
 
-
-
+    def store_path(self, start, items):
+        """
+        Builds the path around the store
+        :param start:(String) the starting aisle
+        :param items:(list)
+        :return: the path to all the items
+        """
+        path=[]
+        shortest_path=sys.maxsize
+        next=None
+        while(len(items>0)):
+            for ailse in items:
+                end=ailse
+                temp_path=self.dijkstras_shortest_path(start, end)
+                if len(temp_path)<len(shortest_path):
+                    shortest_path=temp_path
+                    next=end
+            path.extend(shortest_path)
+            start=next
+            items.remove(next)
+            shortest_path=sys.maxsize
+        return path
