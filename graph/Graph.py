@@ -100,6 +100,7 @@ class Graph:
 
         start_tuple = predecessors[start]
         start_tuple.update(None, 0)
+        queue.sort(key=PathTuple.get_dist_from_start)
 
         # goes over every aisle update information for all its neighbors
         while(len(queue)>0):
@@ -111,6 +112,7 @@ class Graph:
                 distance=1+next.get_dist_from_start()
                 neighbor_path=predecessors[neighbor]
                 neighbor_path.update(next_aisle, distance)
+            queue.sort(key=PathTuple.get_dist_from_start)
 
         next = predecessors[end]
         path = []
@@ -135,9 +137,9 @@ class Graph:
         :return: the path to all the items
         """
         path=[]
-        shortest_path=sys.maxsize
+        shortest_path=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         next=None
-        while(len(items>0)):
+        while(items !=[]):
             for ailse in items:
                 end=ailse
                 temp_path=self.dijkstras_shortest_path(start, end)
@@ -147,5 +149,9 @@ class Graph:
             path.extend(shortest_path)
             start=next
             items.remove(next)
-            shortest_path=sys.maxsize
+
+            shortest_path=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         return path
+
+def scrub_results(list):
+

@@ -19,7 +19,8 @@ wegmans.add_values("Beer Shop", "Frozen", "Diary", "Meat Case", "Produce", "Bake
                    "Pharmacy", "Floral", "Checkout")
 
 
-wegmans.connect_undirected("Frozen", "24A", "23A", "22A", "21A", "20A", "19A", "18A", "17A", "16A", "15A")
+wegmans.connect_undirected("Frozen", "Cor24A", "Cor23A", "Cor22A", "Cor21A", "Cor20A", "Cor19A", "Cor18A", "Cor17A",
+                           "Cor16A", "Cor15A")
 wegmans.connect_undirected("Cor24A", "Cor23A", "24A", "Frozen")
 wegmans.connect_undirected("Cor23A", "Cor24A", "Cor22A", "23A", "Frozen")
 wegmans.connect_undirected("Cor22A", "Cor23A", "Cor21A", "22A", "Frozen")
@@ -159,4 +160,8 @@ wegmans.connect_undirected("Cor01C", "Cor02C", "Produce", "01B")
 wegmans.connect_undirected("Meat Case", "Cor09C", "Cor08C", "Cor07C", "Cor06C")
 wegmans.connect_undirected("Produce", "Bakery", "Cor01C")
 
-print(wegmans.dijkstras_shortest_path("Floral", "Diary")) #pl
+test=wegmans.store_path("Floral", ["Diary", "Bakery", "21A", "09B", "13A", "Checkout"])
+print(test)
+test2=set()
+test2.update(test)
+print(test2)
