@@ -11,9 +11,3 @@ def index(request):
 def application(request):
     template = loader.get_template("application.html")
     return HttpResponse(template.render())
-
-def gui(request):
-    return HttpResponse("This is the GUI for Test")
-
-def run(request):
-    return HttpResponse(str(build.build_stores_dict(build.get_stores_list())))
