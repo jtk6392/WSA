@@ -27,7 +27,7 @@ def build_stores_dict(list):
         lat=store["latitude"]
         long=store["longitude"]
         number=store["number"]
-        zipcodes=clean_zip_codes(SearchEngine().by_coordinates(lat, long, returns=2))
+        zipcodes=clean_zip_codes(SearchEngine().by_coordinates(lat, long, returns=1))
 
         for entry in zipcodes:
             if entry not in store_dict.keys():
@@ -93,10 +93,10 @@ def locate_helper(list, dic):
     :param dic:(dict) the dictionary of store locations
     :return: the set of stores within the users area
     """
-    stores=set()
+    stores=[]
     for zip in list:
         if zip in dic.keys():
-            stores.update(dic[zip])
+            stores.extend(dic[zip])
     return stores
 
 def shelf_location(store_num, sku):
