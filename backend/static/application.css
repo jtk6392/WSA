@@ -1,0 +1,17 @@
+main{
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+#startProgram{
+    margin-top: 12vh;
+    font-size: 2rem;
+    height: 8vh;
+}
+footer{
+    margin-top: auto;
+    margin-bottom: 0;
+}
