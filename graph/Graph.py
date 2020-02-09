@@ -62,7 +62,6 @@ class Graph:
         visited.add(curr_aisle)
         while len(node_list) != 0:
             for elem in self.vertices.get(curr_aisle).get_neighbors():
-                print(self.vertices.get(curr_aisle).aisle, elem.aisle)
                 if not visited.__contains__(elem.aisle):
                     node_list += elem.aisle
                     visited.add(elem.aisle)
@@ -74,8 +73,27 @@ class Graph:
             counter += 1
         return relations
 
+    def problem_nodes(self, start_aisle, *end_aisle):
+        node_avg_weight = 0
+        total = 0
+        results = dict()
+        for node in self.vertices:
+            for val in self.breadth_first_all(node, node, self.vertices).values():
+                total+=val
+            results[node.aisle] = total/len(self.vertices)
+        node_total = 0
+        for num in results.values():
+            node_total += num
 
+        node_avg_weight = node_total/len(self.vertices)
 
+        final = set()
+
+        for node in self.vertices.keys():
+            if results[node] <= .1*final:
+                final.add(node.aisle)
+
+        return final
 
     def dijkstras_shortest_path(self, start_aisle, end_aisle):
         """
