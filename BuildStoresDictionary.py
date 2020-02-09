@@ -1,4 +1,3 @@
-
 import http.client
 import json
 from urllib import parse
@@ -44,10 +43,13 @@ def get_product(product):
     :param product:(String) the name of the product we are looking for
     :return:(list) a list of tuples containing the products name and sku respectively
     """
-    product=parse.quote(product)
-    web_respone = request.urlopen\
-        ("https://api.wegmans.io/products/search?query=%s&api-version=2018-10-18&subscription-key=%s" % (product, KEY))
-    product_json = http.client.HTTPResponse.read(web_respone)
+    try:
+        product=parse.quote(product)
+        web_respone = request.urlopen\
+            ("https://api.wegmans.io/products/search?query=%s&api-version=2018-10-18&subscription-key=%s" % (product, KEY))
+        product_json = http.client.HTTPResponse.read(web_respone)
+    except:
+        return None
     return make_product(json.loads(product_json)["results"])
 
 def make_product(list):
@@ -108,10 +110,16 @@ def shelf_location(store_num, sku):
     :param sku:(String) the sku number of the product
     :return: the shelf location of the product
     """
-    web_respone = request.urlopen(
-        "https://api.wegmans.io/products/%s/locations/%s?api-version=2018-10-18&subscription-key=%s" % (sku, store_num, KEY))
-    location=http.client.HTTPResponse.read(web_respone)
-    return json.loads(location)["locations"][0]["name"]
+    try:
+        web_respone = request.urlopen(
+            "https://api.wegmans.io/products/%s/locations/%s?api-version=2018-10-18&subscription-key=%s" % (sku, store_num, KEY))
+        location=http.client.HTTPResponse.read(web_respone)
+    except:
+        return None
+    if len(json.loads(location)["locations"]) > 0:
+        return json.loads(location)["locations"][0]["name"]
+    else:
+        return None
 
 def get_price(store_num, sku):
     """
@@ -120,7 +128,29 @@ def get_price(store_num, sku):
     :param sku:(String) the sku number of the product
     :return: the price of the product
     """
-    web_respone = request.urlopen(
+    try:
+        web_respone = request.urlopen(
         "https://api.wegmans.io/products/%s/prices/%s?api-version=2018-10-18&subscription-key=%s" % (sku, store_num, KEY))
-    location = http.client.HTTPResponse.read(web_respone)
+        location = http.client.HTTPResponse.read(web_respone)
+    except:
+        return None
     return json.loads(location)["price"]
+
+
+def get_image(sku):
+    """
+    Returns a list of images for a given sku.
+    :param sku: The sku number of a product
+    :return: An image link if available, else None
+    """
+    try:
+        web_response = request.urlopen(
+            "https://api.wegmans.io/products/%s?api-version=2018-10-18&subscription-key=%s" % (sku, KEY))
+        location = http.client.HTTPResponse.read(web_response)
+        images = json.loads(location)["tradeIdentifiers"]
+    except:
+        return None
+    if len(images) > 0:
+        return images[0]
+    else:
+        return None
