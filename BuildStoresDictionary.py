@@ -1,8 +1,9 @@
 
-from urllib import request
-from urllib import parse
 import http.client
 import json
+from urllib import parse
+from urllib import request
+
 from uszipcode import SearchEngine
 
 KEY="d417eac4aaa24bc082c1581ef13783ea&api"
@@ -44,7 +45,8 @@ def get_product(product):
     :return:(list) a list of tuples containing the products name and sku respectively
     """
     product=parse.quote(product)
-    web_respone = request.urlopen("https://api.wegmans.io/products/search?query=%s&api-version=2018-10-18&subscription-key=%s" % (product, KEY))
+    web_respone = request.urlopen\
+        ("https://api.wegmans.io/products/search?query=%s&api-version=2018-10-18&subscription-key=%s" % (product, KEY))
     product_json = http.client.HTTPResponse.read(web_respone)
     return make_product(json.loads(product_json)["results"])
 
