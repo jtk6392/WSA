@@ -21,13 +21,16 @@ function locate() {
             console.log(json);
             console.log(json[0]);
             store_number = json[0];
-            // todo json format tbd do something with the response.
         });
 
     }
 }
 
-async function productPriceLocation(product){
+
+
+
+
+async function getProductsInfo(product){
     const options = {
         method:'POST',
         headers:{
@@ -36,28 +39,65 @@ async function productPriceLocation(product){
         body:JSON.stringify(product)
     };
     console.log('sending: ', options);
-    const response = await fetch('product/', options);
+    const response = await fetch('products/', options);
     const json = await response.json();
-    console.log(json);
-    await getPriceLocation(json.sku);
-
-}
-
-async function getPriceLocation(sku){
-    const data = {store_number, sku};
-    const options = {
+    let products_info = [];
+    const d2 = {
+        'store_number': store_number,
+        'sku':0,
+        'name':''
+    };
+    const option2 = {
         method:'POST',
         headers:{
-            'Content-Type': 'application/json'
+            'Content-Type':'application/json'
         },
-        body:JSON.stringify(data)
+        body:JSON.stringify(d2),
     };
-    console.log('sending: ', options);
-    const response = await fetch('price/', options);
-    const json = await response.json();
-    console.log(json);
+
+    for(let i = 0; i < 10; i++){
+        if(i === json.length -1){
+            break;
+        }
+        d2.sku = json[i][1];
+        d2.name = product;
+        option2.body = JSON.stringify(d2);
+
+        const resp = await fetch('price/', option2);
+        const output = await resp.json();
+        if(output.price == null || output.location == null){
+            continue;
+        }
+        products_info.push(output)
+    }
+
+    return products_info
 }
 
+
 locate();
+
+async function testCart(){
+    const products = [
+        'ice cream',
+        'taquitos',
+        'lawn chair',
+        'corona',
+        'milk',
+        'ground beef',
+        'apples',
+        'brocolli',
+        'pie',
+        'parmesan',
+        'sweet and sour chicken',
+        'tortillas',
+        'mayo',
+        'poptarts'
+    ];
+    for(let product in products){
+        await getProductsInfo(product);
+    }
+}
+
 
 
