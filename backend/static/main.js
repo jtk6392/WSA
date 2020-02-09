@@ -1,5 +1,11 @@
-let store_number = 1;
+/**
+ * Handles backend API calls for the frontend
+ */
+let store_number = 1; // Tracks the nearest store.
 
+/**
+ * Determines the nearest store to the user through the use of GPS.
+ */
 function locate() {
     if('geolocation' in navigator) {
         console.log('geolocation available');
@@ -14,22 +20,20 @@ function locate() {
                 },
                 body:JSON.stringify(data)
             };
-            console.log("todo send: ", options);
 
             const response = await fetch('store/', options);
             const json = await response.json();
-            console.log(json);
-            console.log(json[0]);
             store_number = json[0];
         });
 
     }
 }
 
-
-
-
-
+/**
+ * Returns a list of product information based on the name of a product.
+ * @param product String:representing the name of the product.
+ * @returns {Promise<[]>} Returns a list of product information.
+ */
 async function getProductsInfo(product){
     const options = {
         method:'POST',
@@ -56,7 +60,7 @@ async function getProductsInfo(product){
     };
 
     for(let i = 0; i < 10; i++){
-        if(i === json.length -1){
+        if(json == null || i === json.length -1){
             break;
         }
         d2.sku = json[i][1];
@@ -70,13 +74,16 @@ async function getProductsInfo(product){
         }
         products_info.push(output)
     }
-
+    for(let i = 0; i < products_info.length; i++){
+        console.log(products_info[i]);
+    }
     return products_info
 }
 
-
-locate();
-
+/**
+ * Tester function for the backend.
+ * @returns {Promise<void>}
+ */
 async function testCart(){
     const products = [
         'ice cream',
@@ -95,9 +102,8 @@ async function testCart(){
         'poptarts'
     ];
     for(let product in products){
-        await getProductsInfo(product);
+        let resp = await getProductsInfo(product);
+        console.log(resp);
     }
 }
-
-
-
+locate();
