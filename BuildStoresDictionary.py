@@ -99,8 +99,3 @@ def locate_helper(list, dic):
         if zip in dic.keys():
             stores.update(dic[zip])
     return stores
-
-#print(get_product("ground beef"))
-dic=build_stores_dict(get_stores_list())
-print("test the loop")
-print(locate_nearest_stores(dic, (39.2931637, -76.4394)))
