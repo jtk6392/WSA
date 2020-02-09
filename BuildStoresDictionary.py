@@ -122,14 +122,3 @@ def get_price(store_num, sku):
         "https://api.wegmans.io/products/%s/prices/%s?api-version=2018-10-18&subscription-key=%s" % (sku, store_num, KEY))
     location = http.client.HTTPResponse.read(web_respone)
     return json.loads(location)["price"]
-
-
-
-#print(get_product("ground beef"))
-#dic=build_stores_dict(get_stores_list())
-#print("test the loop")
-#print(locate_nearest_stores(dic, (39.2931637, -76.4394)))
-#shelf_location("3", "251092")
-#print(get_product("peanut"))
-#print(shelf_location("3", "526397"))
-#print(get_price("3", "526397"))
