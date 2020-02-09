@@ -15,7 +15,7 @@ wegmans.add_values("01C", "02C", "03C", "04C", "05C", "06C", "07C", "08C", "09C"
                    "15C", "16C", "17C", "18C", "19C", "20C")
 wegmans.add_values("Cor01C", "Cor02C", "Cor03C", "Cor04C", "Cor05C", "Cor06C", "Cor07C", "Cor08C", "Cor09C", "Cor10C",
                    "Cor11C", "Cor12C", "Cor13C", "Cor14C", "Cor15C", "Cor16C", "Cor17C", "Cor18C", "Cor19C", "Cor20C")
-wegmans.add_values("Beer Shop", "Frozen", "Diary", "Meat Case", "Produce", "Fresh Bakery", "Deli", "Prepared Food",
+wegmans.add_values("Beer Shop", "Frozen", "Dairy", "Meat Case", "Produce", "Fresh Bakery", "Deli", "Prepared Food",
                    "Pharmacy", "Floral", "Checkout")
 
 
@@ -104,7 +104,7 @@ wegmans.connect_undirected("Cor04B", "Cor05B", "Cor03B", "04B", "04A")
 wegmans.connect_undirected("Cor03B", "Cor04B", "Cor02B", "03B", "03A")
 wegmans.connect_undirected("Cor02B", "Cor03B", "Cor01B", "02B", "02A")
 wegmans.connect_undirected("Cor01B", "Cor02B", "01A", "01B")
-wegmans.connect_undirected("Beer Shop", "Cor24B", "Cor23B", "Cor22B", "Cor21B", "20B", "Diary")
+wegmans.connect_undirected("Beer Shop", "Cor24B", "Cor23B", "Cor22B", "Cor21B", "20B", "Dairy")
 
 
 wegmans.connect_undirected("Deli", "Fresh Bakery", "Prepared Food")
@@ -132,10 +132,10 @@ wegmans.connect_undirected("02B", "Cor02C", "Cor02B")
 wegmans.connect_undirected("01B", "Cor01C", "Cor01B")
 
 
-wegmans.connect_undirected("Diary", "Beer Shop", "Cor20C")
+wegmans.connect_undirected("Dairy", "Beer Shop", "Cor20C")
 
 
-wegmans.connect_undirected("Cor20C", "Cor19C", "20B", "Diary")
+wegmans.connect_undirected("Cor20C", "Cor19C", "20B", "Dairy")
 wegmans.connect_undirected("Cor19C", "Cor20C", "Cor18C", "19B")
 wegmans.connect_undirected("Cor18C", "Cor19C", "Cor17C", "18B")
 wegmans.connect_undirected("Cor17C", "Cor18C", "Cor16C", "17B")
@@ -160,8 +160,8 @@ wegmans.connect_undirected("Cor01C", "Cor02C", "Produce", "01B")
 wegmans.connect_undirected("Meat Case", "Cor09C", "Cor08C", "Cor07C", "Cor06C")
 wegmans.connect_undirected("Produce", "Fresh Bakery", "Cor01C")
 
-test=wegmans.store_path("Floral", ["Diary", "Fresh Bakery", "21A", "09B", "13A", "Checkout"])
-print(test)
-test2=set()
-test2.update(test)
-print(test2)
+# test=wegmans.store_path("Floral", ["Diary", "Fresh Bakery", "21A", "09B", "13A", "Checkout"])
+# print(test)
+# test2=set()
+# test2.update(test)
+# print(test2)
