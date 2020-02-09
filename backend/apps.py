@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from BuildStoresDictionary import *
+from graph.LocalWegmansGraph import wegmans
 
 
 class BackendConfig(AppConfig):
@@ -32,7 +33,6 @@ def get_price_location_image(request):
     :param request: store number and sku for a product query
     :return: A JSON with a product's name, price, location, image.
     """
-    print(2)
     data = dict()
     body = request.body
     info = json.loads(body)
@@ -55,7 +55,6 @@ def get_products_list(request):
     :param request: contains an input string to query Wegmans' database.
     :return: a list of products similar to the input string.
     """
-    print(3)
     body = request.body
     info = json.loads(body)
     prods = get_product(info)
@@ -64,3 +63,19 @@ def get_products_list(request):
     return HttpResponse(response)
 
 
+@csrf_exempt
+def get_spf(request):
+    body = request.body
+    lst = json.loads(body)
+    locs = []
+    for i in range(len(lst)):
+        if not lst[i]:
+            continue
+        loc = lst[0][i]['location']
+        print(loc)
+        if loc is not None:
+            locs.append(loc)
+    print(locs)
+    spf = wegmans.store_path("Floral", locs)
+    response = json.dumps(spf)
+    return HttpResponse(response)

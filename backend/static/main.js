@@ -74,9 +74,7 @@ async function getProductsInfo(product){
         }
         products_info.push(output)
     }
-    for(let i = 0; i < products_info.length; i++){
-        console.log(products_info[i]);
-    }
+
     return products_info
 }
 
@@ -88,7 +86,6 @@ async function testCart(){
     const products = [
         'ice cream',
         'taquitos',
-        'lawn chair',
         'corona',
         'milk',
         'ground beef',
@@ -101,9 +98,21 @@ async function testCart(){
         'mayo',
         'poptarts'
     ];
+    let resps = [];
     for(let product in products){
-        let resp = await getProductsInfo(product);
-        console.log(resp);
+        resp = await getProductsInfo(product);
+        if(resp != null){
+            resps.push(resp);
+        }
     }
+    const options = {
+        method:'POST',
+        'Content-Type':'applications/json',
+        'body': JSON.stringify(resps)
+    };
+    console.log(options);
+    const response = await fetch('spf/', options);
+    const json = await response.json();
+    console.log(json);
 }
 locate();
