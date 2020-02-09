@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.run),
-    path('GUI/', views.gui, name='gui')
+    path('GUI/', views.gui, name='gui'),
+    path('home/', views.index)
 ]
