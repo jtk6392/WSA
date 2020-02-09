@@ -58,7 +58,3 @@ def make_product(list):
     for entry in list:
         available_products.append((entry['name'], entry['sku']))
     return available_products
-
-
-print(get_product("ground beef"))
-print(build_stores_dict(get_stores_list()))
