@@ -82,40 +82,41 @@ function drawApp()
     console.log(arrayToRemove);
 }
 
-function drawItems(x, searchTerm)
-{
+function drawItems(x, searchTerm) {
     let resultItem, checkbox, name, price, location, image;
     let info = getProductsInfo(searchTerm);
-    for(let i = 0; i < x; i++)
-    {
-        resultItem = document.createElement("DIV");
-        checkbox = document.createElement("INPUT");
-        name = document.createElement("P");
-        price = document.createElement("P");
-        location = document.createElement("P");
-        checkbox.type = "checkbox";
-        arrayToRemove.push(resultItem);
+    if(info.length > 0) {
+        for (let i = 0; i < x; i++) {
+            console.log(info[i]);
+            resultItem = document.createElement("DIV");
+            checkbox = document.createElement("INPUT");
+            name = document.createElement("P");
+            price = document.createElement("P");
+            location = document.createElement("P");
+            checkbox.type = "checkbox";
+            arrayToRemove.push(resultItem);
 
-        name.innerText = info[i].name;
-        price.innerText = info[i].price;
-        location.innerText = info[i].location;
-        image = info[i].image;
-        resultItem.appendChild(name);
-        resultItem.appendChild(price);
-        resultItem.appendChild(location);
-        resultItem.appendChild(checkbox);
-        document.getElementById("background").appendChild(resultItem);
+            name.innerText = info[i].name;
+            price.innerText = info[i].price;
+            location.innerText = info[i].location;
+            image = info[i].image;
+            resultItem.appendChild(name);
+            resultItem.appendChild(price);
+            resultItem.appendChild(location);
+            resultItem.appendChild(checkbox);
+            document.getElementById("background").appendChild(resultItem);
+        }
     }
 }
 
 function setSearchTerm(){
         searchTerm = inputBox.value;
         drawItems(3, searchTerm);
-
-        //let input = documentById('test');
-        //input.addEventListener("keyup"), function (e) {
-        //    if(e.key == "Enter"){
-        //        let string = input.value;
-        //    }
-        //}
+        let input = document.getElementById('input');
+        input.addEventListener(("keyup"), function(e) {
+            if(e.key==="Enter"){
+                let string = input.value;
+                drawItems(3,string);
+            }
+        });
 }
