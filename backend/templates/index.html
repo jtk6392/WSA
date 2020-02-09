@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="css/baseStyle.css">
-    <title>WSA</button></title>
+    <link rel="stylesheet" type="text/css" href="{% static "baseStyle.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "introStyle.css" %}">
+    <title>WSA</title>
 </head>
 <body>
     <header>  
         <div >
-            <button id="homepageTitle">WSA</button>
+            <a href=""><button id="homepageTitle">WSA</button></a>
         </div>
-
         <ul>
-            <button class="menuButton"><li>About</li></button> 
-            <button class="menuButton"><li>Try It</li></button> 
-            <button class="menuButton"><li>FAQ</li></button> 
-            <button class="menuButton"><li>Etc</li></button> 
+            <a href=""><button class="menuButton"><li>About</li></button></a>
+            <a href="app/"><button class="menuButton"><li>Try It</li></button></a>
+            <a href=""><button class="menuButton"><li>FAQ</li></button></a>
+            <a href=""><button class="menuButton"><li>Etc</li></button></a>
         </ul>
     </header>
     <main>
@@ -44,7 +45,8 @@
         </section>
     </main>
     <footer>
-        WSA Processing 
+        <p id="cr">WSA Processing 2020</p>
+        <p id="credit">Authors: Jordan Kiel, Nicholas Patel, Liam Tyler, Kyle Zielinski</p>
     </footer>
 </body>
 </html>
