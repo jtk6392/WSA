@@ -13,11 +13,12 @@ function locate() {
                 body:JSON.stringify(data)
             };
             console.log("todo send: ", options);
-            /*
-            const response = await fetch(''); // todo interact with backend
+
+            const response = await fetch('store/', options); // todo interact with backend
             const json = await response.json();
+            console.log(json)
             // todo json format tbd
-            */
+
         });
 
     }
