@@ -146,12 +146,21 @@ class Graph:
                 if len(temp_path)<len(shortest_path):
                     shortest_path=temp_path
                     next=end
-            path.extend(shortest_path)
+            path.append(shortest_path)
             start=next
             items.remove(next)
 
             shortest_path=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        return path
+        return scrub_results(path)
 
 def scrub_results(list):
-
+    """
+    removes repeated values
+    :param list: (list) list of the shortest path lists
+    :return: the cleaned list
+    """
+    master=[]
+    master.extend(list[0])
+    for i in range(1, len(list)):
+        master.extend(list[i][1:])
+    return master
