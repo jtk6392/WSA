@@ -76,12 +76,11 @@ def locate_nearest_stores(dic, location):
     found it checks again with a larger radius (25, 50, 75, 100). If no stores are found in an 100 mile radius it gives
      up
     :param dic:(dict) the dictionary of store locations
-    :param location:(json) the users latitude and longitude
+    :param location:(dict) the users latitude and longitude
     :return:(set) returns the set of stores in the area, -1 if nothing within 100 miles
     """
-    #TODO implement location handling
     for i in range(1, 5):
-        zips=clean_zip_codes(SearchEngine().by_coordinates(location[0], location[1], radius=25*i, returns=1000))
+        zips=clean_zip_codes(SearchEngine().by_coordinates(location["lat"], location["lng"], radius=25*i, returns=1000))
         stores=locate_helper(zips, dic)
         if len(stores)>0:
             return stores
@@ -100,7 +99,37 @@ def locate_helper(list, dic):
             stores.update(dic[zip])
     return stores
 
+def shelf_location(store_num, sku):
+    """
+    Gets the items shelf location from the store number and sku
+    :param store_num:(String) the stores number
+    :param sku:(String) the sku number of the product
+    :return: the shelf location of the product
+    """
+    web_respone = request.urlopen(
+        "https://api.wegmans.io/products/%s/locations/%s?api-version=2018-10-18&subscription-key=%s" % (sku, store_num, KEY))
+    location=http.client.HTTPResponse.read(web_respone)
+    return json.loads(location)["locations"][0]["name"]
+
+def get_price(store_num, sku):
+    """
+    gets the products price from its sku and store number
+    :param store_num:(String) the stores number
+    :param sku:(String) the sku number of the product
+    :return: the price of the product
+    """
+    web_respone = request.urlopen(
+        "https://api.wegmans.io/products/%s/prices/%s?api-version=2018-10-18&subscription-key=%s" % (sku, store_num, KEY))
+    location = http.client.HTTPResponse.read(web_respone)
+    return json.loads(location)["price"]
+
+
+
 #print(get_product("ground beef"))
-dic=build_stores_dict(get_stores_list())
-print("test the loop")
-print(locate_nearest_stores(dic, (39.2931637, -76.4394)))
+#dic=build_stores_dict(get_stores_list())
+#print("test the loop")
+#print(locate_nearest_stores(dic, (39.2931637, -76.4394)))
+#shelf_location("3", "251092")
+print(get_product("peanut"))
+print(shelf_location("3", "526397"))
+print(get_price("3", "526397"))
