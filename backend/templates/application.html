@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="{% static "baseStyle.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "application.css" %}">
+    <script src="{% static "main.js" %}"> </script>
 </head>
 <body>
     <header>  
         <div >
             <a href="../"><button id="homepageTitle">WSA</button></a>
         </div>
-
         <ul>
            <a href=""><button class="menuButton"><li>About</li></button></a>
            <a href="app/"><button class="menuButton"><li>Try It</li></button></a>
@@ -21,11 +22,12 @@
         </ul>
     </header>
     <main>
-       ########################Program#########################
-    </main>
+       <button onclick="runApplication()" id="startProgram">Start Shopping</button>
+    </main>;
     <footer>
         <p id="cr">WSA Processing 2020</p>
         <p id="credit">Authors: Jordan Kiel, Nicholas Patel, Liam Tyler, Kyle Zielinski</p>
     </footer>
 </body>
+    <script src="{% static "program.js" %}"> </script>
 </html>
