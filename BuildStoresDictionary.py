@@ -27,13 +27,13 @@ def build_stores_dict(list):
         lat=store["latitude"]
         long=store["longitude"]
         number=store["number"]
-        zipcodes=SearchEngine().by_coordinates(lat, long, returns=2)
+        zipcodes=clean_zip_codes(SearchEngine().by_coordinates(lat, long, returns=2))
 
         for entry in zipcodes:
-            if entry.zipcode not in store_dict.keys():
-                store_dict[entry.zipcode]=[number]
+            if entry not in store_dict.keys():
+                store_dict[entry]=[number]
             else:
-                store_dict[entry.zipcode].append(number)
+                store_dict[entry].append(number)
 
     return store_dict
 
@@ -59,6 +59,48 @@ def make_product(list):
         available_products.append((entry['name'], entry['sku']))
     return available_products
 
+def clean_zip_codes(list):
+    """
+    takes the list of all the zip objects and just returns a list of the zipcodes
+    :param list:(list) the list of zipcode objects
+    :return:(list) the list of only zipcodes
+    """
+    zip_codes=[]
+    for entry in list:
+        zip_codes.append(entry.zipcode)
+    return zip_codes
 
-print(get_product("ground beef"))
-print(build_stores_dict(get_stores_list()))
+def locate_nearest_stores(dic, location):
+    """
+    collects zipcodes near you location and checks the dictionary  for wegmans in those locations. If no wegmans are
+    found it checks again with a larger radius (25, 50, 75, 100). If no stores are found in an 100 mile radius it gives
+     up
+    :param dic:(dict) the dictionary of store locations
+    :param location:(json) the users latitude and longitude
+    :return:(set) returns the set of stores in the area, -1 if nothing within 100 miles
+    """
+    #TODO implement location handling
+    for i in range(1, 5):
+        zips=clean_zip_codes(SearchEngine().by_coordinates(location[0], location[1], radius=25*i, returns=1000))
+        stores=locate_helper(zips, dic)
+        if len(stores)>0:
+            return stores
+    return -1
+
+def locate_helper(list, dic):
+    """
+    compares list of zipcodes to entries in the dictionary
+    :param list:(list) the list of all the zipcodes near the use
+    :param dic:(dict) the dictionary of store locations
+    :return: the set of stores within the users area
+    """
+    stores=set()
+    for zip in list:
+        if zip in dic.keys():
+            stores.update(dic[zip])
+    return stores
+
+#print(get_product("ground beef"))
+dic=build_stores_dict(get_stores_list())
+print("test the loop")
+print(locate_nearest_stores(dic, (39.2931637, -76.4394)))
